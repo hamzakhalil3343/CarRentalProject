@@ -2,6 +2,12 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require("mongoose")
+const cors = require('cors');
+
+
+
+app.use(cors());
+
 mongoose.connect("mongodb://localhost:27017/carRentalDb");
 mongoose.connection.on('open', () => {
   console.log('Connected to mongodb server.');
