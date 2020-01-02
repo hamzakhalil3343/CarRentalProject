@@ -59,7 +59,7 @@ const Cars = mongoose.model('cars', {
 
 
 
-//file route
+//storing admoin panel to db 
 app.post('/file', upload.single('file'), (req, res, next) => {
   const file = req.file;
   var body  = { name: req.body.name, path: req.file.path ,price : req.body.price };
@@ -84,16 +84,17 @@ app.post('/file', upload.single('file'), (req, res, next) => {
         console.log('ex',ex);
         res.send({message: 'Error in savings admin panel to db'}).status(401);
       };
-
-
-
-
-
-
-
     
 })
 
+//get all details of admin pannel 
+app.get('/adminpanel', async (req, res) => {
+
+  const allStudents = await Cars.find();
+  console.log('allStudents', allStudents);
+
+  res.send(allStudents);
+});
 
 
 
