@@ -88,12 +88,18 @@ app.post('/file', upload.single('file'), (req, res, next) => {
 })
 
 //get all details of admin pannel 
-app.get('/adminpanel', async (req, res) => {
+app.get('/home', (req, res) => {
+  Cars.find({})
+      .exec(function (err, data) {
+          if (err) {
+              console.log('error');
+          }
+          else {
+              console.log("image returned "+data)
+              res.json(data);
+          }
+      })
 
-  const allStudents = await Cars.find();
-  console.log('allStudents', allStudents);
-
-  res.send(allStudents);
 });
 
 
