@@ -3,7 +3,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require("mongoose")
 const cors = require('cors');
-
+const multer = require('multer');
 
 
 app.use(cors());
@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
-
+let upload = multer({ dest: 'uploads/' })
 
 //creating model of user
 const Users = mongoose.model('users', {
@@ -40,6 +40,69 @@ const Admins = mongoose.model('admins', {
   password: String,
   date_added: Date
  });
+
+//creating model for cars
+const Cars = mongoose.model('cars', {
+  name: String,
+  car_id: Number,
+  path: String,
+  price: String,
+  date_added: Date
+ });
+
+
+
+
+
+
+
+
+
+
+//file route
+app.post('/file', upload.single('file'), (req, res, next) => {
+  const file = req.file;
+  var body  = { name: req.body.name, path: req.file.path ,price : req.body.price };
+  console.log("my front end data is  ",body);
+
+  if (!file) {
+    const error = new Error('No File')
+    error.httpStatusCode = 400
+    return next(error)
+  }
+       
+  try{
+    const Car = new Cars(body);
+    
+    const result =  Car.save();
+    res.send({
+      message: 'Car saved succesfully  successful'
+    });
+    
+      }
+      catch(ex){
+        console.log('ex',ex);
+        res.send({message: 'Error in savings admin panel to db'}).status(401);
+      };
+
+
+
+
+
+
+
+    
+})
+
+
+
+
+
+
+
+
+
+
 
 
 
