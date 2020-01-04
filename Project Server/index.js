@@ -23,6 +23,8 @@ app.use(bodyParser.urlencoded({
 }));
 let upload = multer({ dest: 'uploads/' })
 
+
+
 //creating model of user
 const Users = mongoose.model('users', {
     name: String,
@@ -88,6 +90,8 @@ app.post('/file', upload.single('file'), (req, res, next) => {
 })
 
 //get all details of admin pannel 
+const path = require('path');
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.get('/home', (req, res) => {
   Cars.find({})
       .exec(function (err, data) {
@@ -95,6 +99,7 @@ app.get('/home', (req, res) => {
               console.log('error');
           }
           else {
+            
               console.log("image returned "+data)
               res.json(data);
           }
